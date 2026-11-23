@@ -1,0 +1,449 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>learn-SDE · AI 产品经理入门实践</title><style>*{box-sizing:border-box}html{scroll-padding-top:24px}body{margin:0;background:#fbfaf6;color:#1e3034;font:17px/1.75 "PingFang SC","Microsoft YaHei",sans-serif}a{color:#135f70;text-underline-offset:.2em}a:focus-visible,summary:focus-visible{outline:3px solid #cc7c35}a:hover{text-decoration-thickness:2px}.frame{max-width:1250px;margin:auto;padding:34px 42px}.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #b4c1b9;padding-bottom:12px;color:#32584c;letter-spacing:.055em;font-size:14px}.top b{font:700 22px Georgia,serif;color:#163e38}.layout{display:grid;grid-template-columns:190px minmax(0,1fr);gap:56px}.rail{position:sticky;align-self:start;top:22px;padding:28px 0}.rail a{display:block;margin:8px 0;padding:3px 0;text-decoration:none}.rail a:hover{text-decoration:underline}.rail small{color:#61756e}article{max-width:870px;min-width:0}.hero{margin:46px 0 30px;padding-bottom:26px;border-bottom:2px solid #537467}.hero h1{font:700 clamp(34px,4vw,56px)/1.2 "Songti SC",Georgia,serif;margin:12px 0 14px}.hero p{font-size:20px;max-width:39em}.actions a{display:inline-block;padding:8px 15px;margin:3px 10px 3px 0;border:1px solid #507b6c;border-radius:4px}.actions a:first-child{background:#215447;color:white}.section{border-top:1px solid #c8d3c9;padding:32px 0 20px}h2{font:700 31px/1.4 "Songti SC",serif;margin:5px 0 18px}h3{font-size:21px;color:#234e42;margin:25px 0 6px}p{margin:10px 0 14px}pre{overflow-x:auto;background:#eaf0ec;border-left:3px solid #548575;padding:12px 18px}code{font-size:.92em}table{width:100%;border-collapse:collapse;font-size:15px;display:block;overflow:auto}th,td{border:1px solid #cdd9d3;padding:7px 10px;vertical-align:top}th{background:#e7eee8}blockquote{margin:18px 0;padding:3px 18px;border-left:3px solid #b67d41;background:#f3ece1}summary{cursor:pointer;color:#1c5c4a}figure{margin:20px 0}figure svg{height:auto;width:100%;display:block}input[type=checkbox]{accent-color:#356954}li{margin:.24em 0}.back{font-size:14px}.librarynav{columns:2;padding-left:24px}.librarynav li{break-inside:avoid}@media(max-width:850px){.frame{padding:18px}.layout{display:block}.rail{position:static;padding:8px 0}.rail a{display:inline-block;margin-right:14px}.hero{margin-top:16px}.librarynav{columns:1}}@media print{.rail,.top,.actions,.back{display:none}.frame{padding:0}.layout{display:block}details>*{display:block}body{background:white;font-size:11pt}h2,h3{break-after:avoid}}</style></head><body><div class="frame"><header class="top"><b>learn-SDE</b><span>软件工程实践课　/　v0.1</span></header><div class="layout"><nav aria-label="手册目录" class="rail"><small>学习手册</small><a href="#prepare">从这里开始</a><a href="#lesson1">第一课 · 定义需求</a><a href="#lesson2">第二课 · 协作交付</a><a href="#worksheet">空白工作纸</a><a href="#teacher">教师参考</a><a href="#roadmap">六阶段地图</a><a href="#sources">对照阅读</a><a href="library/reader.html">基础与专题教材 ↗</a></nav><article><div class="hero"><h1>和 AI 一起交付<br>一次软件改动</h1><p>一张工单上，草案已经创建，客服却还没有关联它。你要写清两者的区别，让开发助手改对界面，并用自己的证据收货。</p><div class="actions"><a href="#lesson1">开始第一课</a><a href="#prepare">准备练习环境</a><a href="#roadmap">看课程全图</a></div></div><section class="section" id="prepare"><h2>从这里开始</h2><p>你是这次改动的产品负责人。入门先用人或确定性脚本办单；开发助手可以读写代码。到后续结项，才由被测业务 Agent 办单。</p><p>打开终端，进入含 <code>package.json</code> 的课程副本，执行 <code>node --version</code> 确认 Node.js 20+，再执行 <code>npm start</code>。打开终端打印的本机地址。第二课需要自己的 coding agent，具体账号与费用取决于工具。</p><p>先看两段短片，合计约 6 分 35 秒：<a href="library/foundations/media/ch01.mp4">软件工程在解决什么问题</a> · <a href="library/foundations/media/ch04.mp4">一次修改的全过程</a>。喜欢阅读可打开<a href="library/reader.html">基础与专题教材</a>。</p></section><section class="section" id="lesson1"><h2>第一课 · 定义需求</h2><p>开课先看基础短片 <a href="library/foundations/media/ch01.mp4">软件工程在解决什么问题</a> 和 <a href="library/foundations/media/ch04.mp4">一次修改的全过程</a>。读 <a href="library/reader.html#foundations-ch05">意图与规格</a>，复制一张<a href="#worksheet">空白工作纸</a>。企业软件的角色可查 <a href="library/reader.html#enterprise-ch01">客户那边有谁</a>，权限边界延伸读 <a href="library/reader.html#enterprise-ch05">数据合规</a>。</p>
+<h3>1. 场景、规则与三类角色分工</h3>
+<p>你以 AI 产品经理身份接手客服工单台，当前处理一笔“星舟办公用品”订单：已付 200 元、已退 0 元，本次申请退款 80 元。全流程支付金额不发生变化（已付仍为 200 元、已退仍为 0 元），既有业务决策如下：</p>
+<ul>
+<li><strong>凭证与权限齐全</strong>：只创建审批草案，更新工单为“等待审批”并关联该草案。</li>
+<li><strong>凭证不足</strong>：更新工单为“等待补充材料”，必须给出原因，不建草案。</li>
+<li><strong>缺权限</strong>：转“人工复核”，必须给出原因，不建草案。</li>
+</ul>
+<p>实操前请区分三类角色，避免后续混淆职责：</p>
+<ul>
+<li><strong>开发 coding agent</strong>：辅助你读代码、改页面的研发智能体，不直接替业务拍板。</li>
+<li><strong>业务 Agent</strong>：后续结项才接入的被测执行者。入门课里由人或规则脚本办单。</li>
+<li><strong>脚本</strong>：如页面中的<code>运行演示脚本</code>，读取当前场景的事实并调用与人相同的业务动作，没有自主判断能力，也不是改码工具。</li>
+</ul>
+<h3>2. 启动环境与手操四步</h3>
+<p>确认当前环境为 Node 20+（无需安装依赖），在你的学习副本目录执行：</p>
+<pre class="bash"><code>node -v
+npm start</code></pre>
+<p>终端会显示随机 <code>localhost</code> 端口，在浏览器打开该地址即可进入工单台。</p>
+<p><strong>实操顺序（先不看答案）</strong>：</p>
+<ol type="1">
+<li>对照业务政策填写「任务卡」与「小功能需求卡」，记录你对业务边界和界面核对缺口的判断。</li>
+<li>每切换到一个新场景，先在下拉框选中它，再点初始化。换场景前导出当前运行，抄下运行编号。会用到以下操作：<code>初始化本场景</code>、<code>创建退款草案</code>、<code>更新工单</code>、<code>运行演示脚本</code>、<code>导出本次证据 JSON</code>、<code>归档并重新初始化</code>。
+<ul>
+<li><strong>正常分支</strong>：点<code>初始化本场景</code> → <code>创建退款草案</code> → <code>更新工单</code>（等待审批并关联），核对已付 200 元、已退 0 元无变化。</li>
+<li><strong>两例比较</strong>：分别演练“凭证不足（等待补充材料）”与“缺权限（转人工复核）”，核对二者均写明原因且不建草案。</li>
+<li><strong>错例观察</strong>：在缺凭证案例另开新运行，故意建一份草案，再将工单置为等待补充材料、填写原因并更新。对照工单状态、草案数和动作记录，解释为什么这一单仍错，点<code>导出本次证据 JSON</code>留存记录。</li>
+<li><strong>复位对照</strong>：点<code>归档并重新初始化</code>恢复初始状态，再点<code>运行演示脚本</code>观察规则脚本的处理结果，与手工操作对照。</li>
+</ul></li>
+</ol>
+<p>归档只封存旧运行；重新初始化会创建新编号。导出前确认当前运行号和场景相符。个人预期另存工作纸。</p>
+<h3>3. 引导问题</h3>
+<ol type="1">
+<li>正常分支结束后，为何订单已付 200 元和已退 0 元都没有变化？</li>
+<li>“凭证不足”与“缺权限”分别对应不同终态，它们有哪些共同硬约束？</li>
+<li>错例中，为何容易把“表单选框出现草案”误判成“工单已关联草案”？</li>
+</ol>
+<h3>4. 教师微型示例（仅示范结构，勿照抄为个人答案）</h3>
+<ul>
+<li><strong>任务卡格式</strong>：<code>[分支]：____ ｜ [是否建草案]：____ ｜ [终态与原因]：____ ｜ [支付金额变化]：____</code></li>
+<li><strong>小功能需求卡格式</strong>：<code>只增加：终态区展示____；严禁改动：____。</code></li>
+</ul>
+<h3>5. 自检清单</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />已在 Node 20+ 环境运行 <code>npm start</code> 并打开随机 <code>localhost</code> 端口，未装额外依赖。</label></li>
+<li><label><input type="checkbox" />独立填完任务卡与小功能需求卡。</label></li>
+<li><label><input type="checkbox" />已亲手完成正常分支、两例比较、错例留证与<code>归档并重新初始化</code>复位。</label></li>
+<li><label><input type="checkbox" />能清楚说明开发 coding agent、业务 Agent 与脚本的区别。</label></li>
+</ul>
+<p>核对本轮证据后再展开<a href="#teacher">教师参考</a>，然后进入<a href="#lesson2">第二课</a>。</p>
+</section><section class="section" id="lesson2"><h2>第二课 · 协作交付</h2><p>先读 <a href="library/reader.html#foundations-ch06">计划、版本协作与读懂改动</a> 和 <a href="library/reader.html#foundations-ch07">验证与调试</a>。如果启动有困难，可查 <a href="library/reader.html#foundations-ch03">环境与运行中的服务</a>、<a href="library/reader.html#network-os-ch01">进程与端口</a> 和 <a href="library/reader.html#network-os-ch03">连接与 HTTP</a>；理解草案与工单的关系，可读 <a href="library/reader.html#systems-data-ch01">数据建模</a>。</p>
+<h3>1. 先划清这次改动的范围</h3>
+<p>承接第 1 课需求卡，本课只做一处改动：<strong>在终态区增加“工单实际关联草案编号”，勿改已有业务决策</strong>（凭证/权限规则、原因必填、支付金额不变）。</p>
+<p>涉及文件：<code>web/index.html</code>、<code>web/app.js</code>、<code>app/world.js</code>。本课你操控<strong>开发 coding agent</strong>完成改码；本课由人或脚本办单。保持已有业务规则和数据写入路径。</p>
+<p><strong>读哪个值</strong>：表单可能已预选草案，但工单实际尚未关联。终态区展示值<strong>绝不可</strong>取自表单选框或草案列表第一条，必须从回读的工单事实读取实际关联编号。</p>
+<p><strong>先保存可对照的起点。</strong> 在自己的 Git 克隆中运行 <code>git status</code>，确认尚无软件改动即可继续。如果用的是全新解压目录，请先在目录根运行以下命令建立本地起点。作者名与邮箱可使用自己的本地练习身份，仅作用于这个副本。</p>
+<pre class="sh"><code>git init
+git config --local user.name &quot;Course Learner&quot;
+git config --local user.email &quot;learner@example.invalid&quot;
+git add .gitignore README.md handbook.html package.json app cases learning library scripts tests web
+git diff --cached --stat
+git commit -m &quot;保存课程起点&quot;</code></pre>
+<h3>2. 从读仓库到亲自收货</h3>
+<p>按七步推进：<strong>观察 → 读 → 提计划 → 批注 → 同意实施 → 跑测试 → 真实收货</strong>，切忌跳过计划直接改码。</p>
+<p>可直接粘贴给开发 coding agent 的短提示：</p>
+<blockquote>
+<p>请先只读 <code>web/index.html</code>、<code>web/app.js</code>、<code>app/world.js</code>，说明终态区渲染位置及工单关联草案编号字段，给出最小改动计划，暂不修改文件。要求：只为终态区增加工单实际关联草案编号，必须从回读工单事实取值，禁读选框或草案列表第一条，不改已有业务决策。</p>
+</blockquote>
+<p>在另一个终端先运行以下两条命令，记录已有行为与尚缺的功能。专项检查要求终态区一行标为「关联草案编号」；无关联时显示「未关联」，有关联时显示完整编号。起始工程的专项检查应提示缺少该行。让助手按批注实施后，重新运行同一组检查：</p>
+<pre class="bash"><code>npm test
+npm run verify:lesson-2</code></pre>
+<h3>3. 教师微型示例：坏计划反例与批注示范</h3>
+<ul>
+<li><strong>坏计划反例</strong>：“在 <code>web/app.js</code> 读表单选框当前草案编号显示到终态区，为空则取草案列表第一条，顺便允许缺权限时先建草案。”</li>
+<li><strong>PM 批注示范</strong>：<code>拒绝。1) 选框和列表第一条不是工单事实，会让“已建未关联”误显编号；2) 禁改缺权限决策。请按回读工单事实重写计划。</code></li>
+</ul>
+<h3>4. 真实收货、差异检查与副本提交</h3>
+<p>保持本地服务运行，在浏览器刷新页面。若已停止服务，再运行 <code>npm start</code> 并打开新打印的地址。逐项回读：</p>
+<ol type="1">
+<li><strong>已建草案未关联</strong>：终态区不得显示假编号。</li>
+<li><strong>关联草案后</strong>：准确展示工单实际关联的草案编号。</li>
+<li><strong>复位后</strong>：点<code>归档并重新初始化</code>，显示「未关联」。</li>
+<li><strong>凭证不足停止分支</strong>：等待补充材料，有原因、无草案编号。</li>
+<li><strong>缺权限停止分支</strong>：转人工复核，有原因、无草案编号。</li>
+</ol>
+<p>在自己副本中看差异并保存提交（仅暂存已批准改动）：</p>
+<pre class="bash"><code>git status
+git diff
+git add web/index.html web/app.js
+git diff --cached --stat
+git commit -m &quot;终态区展示工单实际关联草案编号&quot;</code></pre>
+<p>示例暂存路径按真实改动调整。若只有 web/app.js 改过，只添加该文件。</p>
+<h3>5. 引导问题、短故障排查与停止条件</h3>
+<ul>
+<li><strong>引导问题</strong>：
+<ol type="1">
+<li>自动测试通过后，为何仍须手工收货“已建未关联”和两条停止分支？</li>
+<li>提交前看 <code>git diff</code>，最应优先排查哪类越界修改？</li>
+</ol></li>
+<li><strong>短故障排查</strong>：页面没变化先重启 <code>npm start</code> 并刷新；未关联却冒出编号，检查是否误读了选框或列表首项；<code>npm test</code> 报错先看失败原因，勿盲改断言。</li>
+<li><strong>停止条件</strong>：coding agent 未经同意直接改码、触碰业务决策、改动扩散到无关文件时先暂停实施，核对差异后给出更具体的计划批注。</li>
+</ul>
+<h3>6. 自检清单</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />完整走完观察—读—提计划—批注—同意实施—跑测试—真实收货七步。</label></li>
+<li><label><input type="checkbox" />已核实编号来自回读工单事实，五种收货情形全部亲手实测。</label></li>
+<li><label><input type="checkbox" />已跑 <code>npm test</code> 和 <code>npm run verify:lesson-2</code>，未虚构已验证结果。</label></li>
+<li><label><input type="checkbox" />已在个人副本用 <code>git diff</code> 查清差异并将这次改动保存为提交。</label></li>
+</ul>
+<p>把本轮观察写回<a href="#worksheet">工作纸</a>，再与<a href="#teacher">教师示例</a>对照。</p>
+</section><section class="section" id="worksheet"><h2>空白工作纸</h2><p><a href="learning/worksheet.md" download>下载空白工作纸</a>，在自己的副本中填写，或打印本节。</p><p>两课共用。把这张空表复制到自己的课程副本之外，或打印填写。每次运行先填「预期」，操作后再填「观察」。网页里的个人预期保存在浏览器，导出的 JSON 保存业务数据与动作记录，两者要分别留存。</p>
+<h3>第一课 · 业务任务卡</h3>
+<p>政策版本 ____　执行者（人／规则脚本）____　目标工单 ____　申请金额 ____　当前可退金额 ____</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>操作前：凭证与权限</th>
+<th>操作前：该做什么／谁接手</th>
+<th>操作前：草案数量、金额及禁止改动</th>
+<th>操作后：运行号／工单及草案</th>
+<th>证据位置、是否符合及理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>凭证与权限齐全</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺少凭证</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺少权限</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺凭证时故意建草案</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>从一轮导出找出初始状态、当前状态和已执行动作。我的一个观察是 ____，支持它的字段或动作是 ____。另一个同样重要但尚无法判断的事项是 ____。</p>
+<h3>第一课 · 小功能需求卡</h3>
+<p>使用者 ____；在哪个页面、什么时刻要做什么决定 ____。现在的页面能看见 ____，还缺 ____。完成改动后，客服应能区分 ____ 和 ____。谁可以改变工单关联 ____；单纯改变表单选择能证明什么 ____。列出两项必须保留的原有行为 ____。</p>
+<h3>第二课 · 审开发计划</h3>
+<p>助手读过的文件 ____；它打算从哪里取值 ____；我查到的真实数据来源 ____；我拒绝或要求补充的一项计划 ____；同意实施的范围 ____。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>运行号</th>
+<th>服务端工单实际关联编号</th>
+<th>终态区实际显示</th>
+<th>是否收货／证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新运行，已初始化</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>已建草案，尚未更新工单</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>更新工单并关联草案</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>归档后重新初始化</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺凭证后停止</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺权限后转人工</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>记录改动前专项检查为什么失败 ____；改后基础检查与专项检查结果 ____；界面亲测与自动检查分别证明 ____。我的收货决定和剩余问题 ____。</p>
+</section><section class="section" id="teacher"><h2>教师参考</h2><details><summary>完成观察后，展开教师核对示例</summary><h3>同样没有草案，交接给谁？</h3>
+<table>
+<thead>
+<tr>
+<th>案例</th>
+<th>应看到的业务结果</th>
+<th>回读的证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>凭证齐全且有权限</td>
+<td>有一份 80 元待审批草案，工单等待审批且关联该草案。</td>
+<td>工单的 draft_id 等于实际草案 id，目标订单已退金额仍为 0；支付与无关订单同初态一致。</td>
+</tr>
+<tr>
+<td>缺凭证</td>
+<td>工单等待补充材料，写明缺什么，草案为零。下一步由材料提供者补件。</td>
+<td>工单原因、草案列表与动作记录。即使状态正确，也要检查有无误建草案。</td>
+</tr>
+<tr>
+<td>缺权限</td>
+<td>工单转人工复核，写明缺创建权限，草案为零。由有权人员接手。</td>
+<td>操作者权限、工单原因和动作记录。已识别无权时可直接转人工。</td>
+</tr>
+</tbody>
+</table>
+<h3>教师演示 · 一条看似合理的坏计划</h3>
+<p>“页面已经列出了刚才创建的草案，直接展示列表第一项的编号。”先请助手回答：谁把这份草案关联到了这张工单？创建和关联是两次动作，两次动作之间列表非空，工单的关联仍为空。表单预选的是准备提交的值。保存成功后从本轮工单回读，再显示编号，才能支持客服的判断。</p>
+<p>在正常案例只做创建，查看原始业务数据中的 ticket.draft_id，再对照下拉框。此时你已有一个能推翻坏计划的反例。你自己的改动还应处理历史运行与复位，保持业务动作和权限检查原样。专项验收只覆盖该功能；完整业务判定仍由学习者依政策完成。</p>
+</details></section><section class="section" id="roadmap"><h2>六阶段地图</h2><p>v0.1 完整提供阶段 1–2。阶段 3–6 为后续结项路线。选修挑战 TBD。</p><figure><svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1020" viewBox="0 0 1280 1020" font-family="PingFang SC,Hiragino Sans GB,sans-serif"><title>AI 软件工程课程架构：六阶段方法与三个项目</title><rect width="1280" height="1020" fill="white"/>
+<text x="48" y="55" font-size="38" font-weight="700" fill="#192534">AI 软件工程：从交付软件到生产评测</text>
+<text x="49" y="104" font-size="26" font-weight="650" fill="#0047AB">六阶段方法</text>
+<text x="235" y="103" font-size="21" font-weight="400" fill="#192534">PM 定义预期、审计划、验结果；coding agent 协助实现与修复。</text>
+<g id="learning-map-six-stages" font-family="'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif">
+  <!-- 阶段 01：规格定义（淡青） -->
+  <g id="stage-01">
+    <rect x="40" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="40" y="126" width="180" height="206" rx="14" fill="#E8F7F6" stroke="#6DBEC1" stroke-width="1.5"/>
+    <rect x="56" y="138" width="36" height="26" rx="13" fill="#0E7C86"/>
+    <text x="74" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">01</text>
+    <text x="100" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#0B3B44">规格定义</text>
+    <line x1="54" y1="175" x2="206" y2="175" stroke="#B5E0E2" stroke-width="1"/>
+    <text x="56" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">用正反例写清</text>
+    <text x="56" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">边界与验收规格</text>
+    <polygon points="125,240 135,240 130,246" fill="#5CB3B7"/>
+    <rect x="50" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#A8D8DA" stroke-width="1"/>
+    <rect x="50" y="262" width="4" height="50" rx="2" fill="#0E7C86"/>
+    <text x="62" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#0B5F67">验收规格文档</text>
+    <text x="62" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#0B5F67">与正反用例集</text>
+  </g>
+
+  <!-- 箭头 1 -> 2 -->
+  <line x1="220" y1="229" x2="236" y2="229" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="244,229 235,224 235,234" fill="#2563EB"/>
+
+  <!-- 阶段 02：协作开发（淡青） -->
+  <g id="stage-02">
+    <rect x="244" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="244" y="126" width="180" height="206" rx="14" fill="#E8F7F6" stroke="#6DBEC1" stroke-width="1.5"/>
+    <rect x="260" y="138" width="36" height="26" rx="13" fill="#0E7C86"/>
+    <text x="278" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">02</text>
+    <text x="304" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#0B3B44">协作开发</text>
+    <line x1="258" y1="175" x2="410" y2="175" stroke="#B5E0E2" stroke-width="1"/>
+    <text x="260" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">让Agent读仓库</text>
+    <text x="260" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">提计划并验变更</text>
+    <polygon points="329,240 339,240 334,246" fill="#5CB3B7"/>
+    <rect x="254" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#A8D8DA" stroke-width="1"/>
+    <rect x="254" y="262" width="4" height="50" rx="2" fill="#0E7C86"/>
+    <text x="266" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#0B5F67">审定改动计划</text>
+    <text x="266" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#0B5F67">与可运行变更</text>
+  </g>
+
+  <!-- 箭头 2 -> 3 -->
+  <line x1="424" y1="229" x2="440" y2="229" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="448,229 439,224 439,234" fill="#2563EB"/>
+
+  <!-- 阶段 03：独立验证（淡蓝） -->
+  <g id="stage-03">
+    <rect x="448" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="448" y="126" width="180" height="206" rx="14" fill="#EAF2FF" stroke="#7DA7EB" stroke-width="1.5"/>
+    <rect x="464" y="138" width="36" height="26" rx="13" fill="#2563EB"/>
+    <text x="482" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">03</text>
+    <text x="508" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#132F63">独立验证</text>
+    <line x1="462" y1="175" x2="614" y2="175" stroke="#BCD4F8" stroke-width="1"/>
+    <text x="464" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">固定初态运行</text>
+    <text x="464" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">按本轮证据判定</text>
+    <polygon points="533,240 543,240 538,246" fill="#6B98E8"/>
+    <rect x="458" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#B3CDF5" stroke-width="1"/>
+    <rect x="458" y="262" width="4" height="50" rx="2" fill="#2563EB"/>
+    <text x="470" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">本轮运行证据</text>
+    <text x="470" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">与验证结果单</text>
+  </g>
+
+  <!-- 箭头 3 -> 4 -->
+  <line x1="628" y1="229" x2="644" y2="229" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="652,229 643,224 643,234" fill="#2563EB"/>
+
+  <!-- 阶段 04：故障修复（淡蓝） -->
+  <g id="stage-04">
+    <rect x="652" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="652" y="126" width="180" height="206" rx="14" fill="#EAF2FF" stroke="#7DA7EB" stroke-width="1.5"/>
+    <rect x="668" y="138" width="36" height="26" rx="13" fill="#2563EB"/>
+    <text x="686" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">04</text>
+    <text x="712" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#132F63">故障修复</text>
+    <line x1="666" y1="175" x2="818" y2="175" stroke="#BCD4F8" stroke-width="1"/>
+    <text x="668" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">复现失败并修复</text>
+    <text x="668" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">补齐回归用例</text>
+    <polygon points="737,240 747,240 742,246" fill="#6B98E8"/>
+    <rect x="662" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#B3CDF5" stroke-width="1"/>
+    <rect x="662" y="262" width="4" height="50" rx="2" fill="#2563EB"/>
+    <text x="674" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">故障修复补丁</text>
+    <text x="674" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">与回归用例集</text>
+  </g>
+
+  <!-- 箭头 4 -> 5 -->
+  <line x1="832" y1="229" x2="848" y2="229" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="856,229 847,224 847,234" fill="#2563EB"/>
+
+  <!-- 阶段 05：受控接入（淡蓝） -->
+  <g id="stage-05">
+    <rect x="856" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="856" y="126" width="180" height="206" rx="14" fill="#EAF2FF" stroke="#7DA7EB" stroke-width="1.5"/>
+    <rect x="872" y="138" width="36" height="26" rx="13" fill="#2563EB"/>
+    <text x="890" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">05</text>
+    <text x="916" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#132F63">受控接入</text>
+    <line x1="870" y1="175" x2="1022" y2="175" stroke="#BCD4F8" stroke-width="1"/>
+    <text x="872" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">限定办单工具权限</text>
+    <text x="872" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">并对照人或脚本</text>
+    <polygon points="941,240 951,240 946,246" fill="#6B98E8"/>
+    <rect x="866" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#B3CDF5" stroke-width="1"/>
+    <rect x="866" y="262" width="4" height="50" rx="2" fill="#2563EB"/>
+    <text x="878" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">业务工具权限单</text>
+    <text x="878" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">与对照评测表</text>
+  </g>
+
+  <!-- 箭头 5 -> 6 -->
+  <line x1="1036" y1="229" x2="1052" y2="229" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="1060,229 1051,224 1051,234" fill="#2563EB"/>
+
+  <!-- 阶段 06：回归交接（淡蓝） -->
+  <g id="stage-06">
+    <rect x="1060" y="128" width="180" height="206" rx="14" fill="#0F172A" fill-opacity="0.05"/>
+    <rect x="1060" y="126" width="180" height="206" rx="14" fill="#EAF2FF" stroke="#7DA7EB" stroke-width="1.5"/>
+    <rect x="1076" y="138" width="36" height="26" rx="13" fill="#2563EB"/>
+    <text x="1094" y="157" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">06</text>
+    <text x="1120" y="159" text-anchor="start" font-size="24" font-weight="700" fill="#132F63">回归交接</text>
+    <line x1="1074" y1="175" x2="1226" y2="175" stroke="#BCD4F8" stroke-width="1"/>
+    <text x="1076" y="204" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">更新业务规则</text>
+    <text x="1076" y="230" text-anchor="start" font-size="18" font-weight="500" fill="#1E293B">交他人独立复跑</text>
+    <polygon points="1145,240 1155,240 1150,246" fill="#6B98E8"/>
+    <rect x="1070" y="252" width="160" height="70" rx="10" fill="#FFFFFF" stroke="#B3CDF5" stroke-width="1"/>
+    <rect x="1070" y="262" width="4" height="50" rx="2" fill="#2563EB"/>
+    <text x="1082" y="281" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">新版业务规则</text>
+    <text x="1082" y="307" text-anchor="start" font-size="18" font-weight="600" fill="#1D4ED8">与复跑交接包</text>
+  </g>
+</g>
+<rect x="48" y="350" width="1184" height="141" rx="12" fill="#F1F5FB"/>
+<text x="70" y="389" font-size="22" font-weight="650" fill="#0047AB">软件工程基础 · 10 章</text>
+<text x="319" y="388" font-size="18" font-weight="400" fill="#192534">工程与变更流程、规格、版本协作、测试与持续集成、环境部署、调试、发布、观测与安全</text>
+<text x="70" y="438" font-size="21" font-weight="650" fill="#0047AB">四个核心专题</text>
+<text x="319" y="438" font-size="18" font-weight="400" fill="#192534">企业软件商业与合规　 /　 系统设计与数据　 /　 网络与操作系统　 /　 模型推理服务工程</text>
+<text x="319" y="469" font-size="17" font-weight="400" fill="#495C73">随阶段练习选读：启动服务时学环境，接入模型时学延迟与成本。</text>
+<text x="48" y="552" font-size="26" font-weight="650" fill="#0047AB">项目如何递进</text>
+<text x="254" y="551" font-size="21" font-weight="400" fill="#192534">先让软件支持员工工作，再检验数字员工，最后学习跨场景生产评测包。</text>
+<g transform="translate(0,484)"><g fill="none" stroke="#0047AB" stroke-width="1.5" stroke-linecap="round">
+<path d="M48,124 V114 H350 M514,114 H816 V124 M880,124 V114 H996 M1116,114 H1232 V124"/>
+</g>
+<g text-anchor="middle" font-size="22" font-weight="600" fill="#0047AB">
+<text x="432" y="122">同一业务场景</text>
+<text x="1056" y="122">跨场景</text>
+</g>
+<g stroke-width="1.5">
+<rect x="48" y="146" width="352" height="356" rx="16" fill="#FFFFFF" stroke="#D6E2F5"/>
+<rect x="464" y="146" width="352" height="356" rx="16" fill="#FFFFFF" stroke="#D6E2F5"/>
+<rect x="880" y="146" width="352" height="356" rx="16" fill="#F8FAFE" stroke="#0047AB"/>
+</g>
+<g fill="none" stroke="#0047AB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M412,324 H450 M442,316 L451,324 L442,332 M828,324 H866 M858,316 L867,324 L858,332"/>
+</g>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<rect x="162" y="211" width="124" height="88" rx="10" stroke="#111111" stroke-width="2.5"/>
+<path d="M162,235 H286 M202,235 V299 M174,251 H190 M174,265 H190 M174,279 H186" stroke="#111111" stroke-width="2.2"/>
+<circle cx="178" cy="223" r="3" fill="#0047AB"/>
+<circle cx="190" cy="223" r="3" fill="#0047AB"/>
+<circle cx="202" cy="223" r="3" fill="#0047AB"/>
+<rect x="216" y="247" width="56" height="18" rx="4" fill="#EEF4FC" stroke="#0047AB" stroke-width="2.2"/>
+<path d="M216,277 H272 M216,287 H252" stroke="#0047AB" stroke-width="2.2"/>
+<rect x="592" y="211" width="96" height="90" rx="10" stroke="#111111" stroke-width="2.5"/>
+<rect x="622" y="203" width="36" height="14" rx="5" fill="#FFFFFF" stroke="#111111" stroke-width="2.5"/>
+<path d="M608,239 L614,245 L625,233 M608,261 L614,267 L625,255 M608,283 L614,289 L625,277" stroke="#0047AB" stroke-width="2.8"/>
+<path d="M636,239 H672 M636,261 H672 M636,283 H660" stroke="#111111" stroke-width="2.4"/>
+<rect x="974" y="233" width="44" height="44" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2.5"/>
+<path d="M986,249 H1006 M986,261 H1000" stroke="#111111" stroke-width="2.2"/>
+<path d="M1018,255 H1044 C1060,255 1060,229 1078,229 M1072,223 L1080,229 L1072,235 M1044,255 C1060,255 1060,281 1078,281 M1072,275 L1080,281 L1072,287" stroke="#0047AB" stroke-width="2.5"/>
+<rect x="1090" y="210" width="48" height="38" rx="7" fill="#EEF4FC" stroke="#0047AB" stroke-width="2.5"/>
+<rect x="1090" y="262" width="48" height="38" rx="7" fill="#EEF4FC" stroke="#0047AB" stroke-width="2.5"/>
+<path d="M1090,223 H1138 M1107,235 L1112,240 L1122,230 M1090,275 H1138 M1107,287 L1112,292 L1122,282" stroke="#0047AB" stroke-width="2.2"/>
+</g>
+<g text-anchor="middle">
+<g font-size="22" font-weight="600" fill="#111111">
+<text x="224" y="186"><tspan fill="#0047AB">阶段 1–2</tspan>　课程实践</text>
+<text x="640" y="186"><tspan fill="#0047AB">阶段 3–6</tspan>　独立结项</text>
+<text x="1056" y="186"><tspan fill="#0047AB">TBD</tspan>　选修挑战</text>
+</g>
+<g font-size="26" font-weight="700" fill="#111111">
+<text x="224" y="364">员工工作台</text>
+<text x="640" y="346">数字员工</text>
+<text x="640" y="380">任务验证台</text>
+<text x="1056" y="346">数字员工 benchmark</text>
+<text x="1056" y="380">自动化生产平台</text>
+</g>
+<g font-size="22" fill="#333333">
+<text x="224" y="432">面向客服办单场景</text>
+<text x="224" y="468">在已有软件上交付改动</text>
+<text x="640" y="432">复用工作台，独立验收</text>
+<text x="640" y="468">验证数字员工任务表现</text>
+<text x="1056" y="432">输入业务场景定义</text>
+<text x="1056" y="468">输出该场景评测包</text>
+</g>
+</g>
+</g></svg></figure><p><a href="learning/course-map.svg">打开矢量原图</a></p></section><section class="section" id="sources"><h2>对照阅读</h2><p>这是一套面向 AI 产品经理的独立实践课程。以下外部资料用于方法对照；星舟办公用品、退款规则、软件起始工程与练习由课程提供。</p>
+<ul>
+<li>第一课读 CS146S 9 月 29 日讲义里关于规格、研究与计划的部分。对着自己的需求卡找出一句无法观察的要求，改写成有时间点和证据的行为。<a href="https://docs.google.com/presentation/d/17brqoQQZHF3K82WgYaV6urAV3Q7iIwyGUBYRvSuY8QY/edit">原讲义</a> · <a href="https://themodernsoftware.dev/materials/9-29-26-transcript.txt">逐字稿</a></li>
+<li>第二课读 9 月 24 日逐字稿中模型循环、工具签名与运行环境的段落。辨认助手读文件、提出修改和运行检查时分别从哪里获得新信息。<a href="https://themodernsoftware.dev/materials/9-24-26-transcript.txt">逐字稿</a> · <a href="https://themodernsoftware.dev/">原课主页</a></li>
+<li>进阶对照可读 UniPat SaaS-Bench 的任务和验收说明。观察执行者与检查器分别能看到什么、终态从哪里读取。<a href="https://github.com/UniPat-AI/SaaS-Bench">项目说明</a></li>
+<li>想了解真实代码库规模，可阅读 Chatwoot 的会话与开发环境。SaaSBench 把它列为客服工单类别的种子项目。<a href="https://arxiv.org/pdf/2605.17526">原论文表 9</a> · <a href="https://developers.chatwoot.com/contributing-guide/setup-guide">Chatwoot 开发指南</a></li>
+</ul>
+</section></article></div></div></body></html>
